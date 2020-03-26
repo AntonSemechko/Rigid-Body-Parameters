@@ -10,8 +10,6 @@ function can be used for visualizing local frames of reference constructed from 
 
 ## Quick Demo
 
-
-
 	load('sample_mesh')
 	RBP=RigidBodyParams(TR);
 	disp(RBP)

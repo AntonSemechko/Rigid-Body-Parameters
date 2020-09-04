@@ -1,4 +1,7 @@
 # Rigid Body Parameters
+
+[![View Rigid body parameters of closed surface meshes on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/48913-rigid-body-parameters-of-closed-surface-meshes)
+
 In order to simulate dynamic behaviour of a rigid-body, one requires knowledge of a set of rigid-body parameters
 such as the total mass of the rigid-body, the center of mass, as well as the moments and products of inertia.
 The purpose of this submission is to provide a function which computes exact rigid-body parameters of objects 

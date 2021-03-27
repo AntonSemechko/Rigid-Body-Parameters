@@ -18,7 +18,7 @@ function can be used for visualizing local frames of reference constructed from 
 	disp(RBP)
 	VisualizeLocalFrame(TR)
 
-## Enforcing Consistent and Proper Face Ordering
+## Enforcing Consistent and Proper Face Orientation
 
 All calculations are based on the assumption that the input mesh is closed, manifold, and has outward pointing normals.
 To obtain outward point normals, the vertices of all faces must have counterclockwise ordering. If you know or suspect

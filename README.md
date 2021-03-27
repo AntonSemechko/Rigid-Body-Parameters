@@ -13,10 +13,49 @@ function can be used for visualizing local frames of reference constructed from 
 
 ## Quick Demo
 
-	load('sample_mesh')
+	load('sample_mesh') 	
 	RBP=RigidBodyParams(TR);
 	disp(RBP)
 	VisualizeLocalFrame(TR)
+
+## Enforcing Consistent and Proper Face Ordering
+
+All calculations are based on the assumption that the input mesh is closed, manifold, and has outward pointing normals.
+To obtain outward point normals, the vertices of all faces must have counterclockwise ordering. If you know or suspect
+the input the mesh has either inconsistent or improper face orientation use function `ConsistentNormalOrientation` prior
+to computing the rigid-body parameters. Here is an example:
+
+
+	load('sample_mesh')
+	[F,V]=GetMeshData(TR);
+	
+	% Randomly mix-up orientations of the faces to simulate the problem above
+	Nf=size(F,1);
+	idx=randn(Nf,1)>0;	
+	F2=F;
+	F2(idx,:)=fliplr(F(idx,:));
+	TR2=triangulation(F2,V);
+	fprintf('\nNumber of inverted faces: %d\n',nnz(idx))
+		
+	% Enforce proper face orientation
+	[TR2_fix,cnt]=ConsistentNormalOrientation(TR2);
+	fprintf('Number of faces corrected: %d\n\n',cnt)
+
+	% Verify that the output is identical to RBP for the original mesh
+	RBP_fix=RigidBodyParams(TR2_fix);
+	
+	fprintf('Corrected mesh:\n')
+	disp(RBP_fix)
+	
+	fprintf('Original (reference) mesh:\n')
+	disp(RigidBodyParams(TR))
+
+	% Result you would have gotten without ensuring proper face orientation:
+	RBP2=RigidBodyParams(TR2);
+	fprintf('Uncorrected mesh:\n')
+	disp(RBP2)
+ 
+
 
 ## License
 [MIT] © 2019 Anton Semechko 

@@ -1,6 +1,5 @@
 function [FN,TA]=TriangleNormals(TR,flag)
-% Calculate normal vectors of individual faces of a triangular surface 
-% mesh.
+% Calculate normal vectors of triangular surface mesh faces.
 %
 % INPUT:
 %   - TR    : surface mesh represented as an object of 'TriRep' class,
@@ -38,4 +37,3 @@ FN=cross(X2-X1,X3-X1,2);
 TA=sqrt(sum(FN.^2,2));
 FN=bsxfun(@rdivide,FN,TA);
 TA=TA/2;
-

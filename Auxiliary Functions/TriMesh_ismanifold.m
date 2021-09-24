@@ -1,4 +1,4 @@
-function [flag,E,FB,EA,Ne]=TriMesh_ismanifold(TR)
+function [flag,E,Eb,EA,Ne]=TriMesh_ismanifold(TR)
 % Check if triangular surface mesh is manifold; that is every non-boundary 
 % edge is shared by two faces.
 %
@@ -11,7 +11,7 @@ function [flag,E,FB,EA,Ne]=TriMesh_ismanifold(TR)
 % OUTPUT:
 %   - flag : true if TR is manifold and false otherwise.
 %   - E    : non-boundary edge array
-%   - FB   : boundary edge array
+%   - Eb   : boundary edge array
 %   - EA   : non-boundary edge attachment cell 
 %   - Ne   : number of elements in each EA cell
 %
@@ -31,12 +31,12 @@ end
 
 % Does TR have a boundary?
 E=sort(edges(TR),2);
-FB=freeBoundary(TR);
+Eb=freeBoundary(TR);
 
-flag_closed=isempty(FB);
+flag_closed=isempty(Eb);
 if ~flag_closed
-    FB=sort(FB,2);
-    idx=ismember(E,FB,'rows');
+    Eb=sort(Eb,2);
+    idx=ismember(E,Eb,'rows');
     E(idx,:)=[];   
 end
 
@@ -45,7 +45,7 @@ EA=edgeAttachments(TR,E);
 Ne=cellfun(@length,EA);
 flag=all(Ne==2);
 if ~flag && ~flag_closed
-    EAb=edgeAttachments(TR,FB);
+    EAb=edgeAttachments(TR,Eb);
     Neb=cellfun(@length,EAb);
     flag=all(Neb==1);
 end

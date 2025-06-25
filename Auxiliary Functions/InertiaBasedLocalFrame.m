@@ -1,8 +1,8 @@
-function [R,C,T,RBP,BB,varargout]=InertiaBasedLocalFrame(TR,RBP)
+function [R,C,T,RBP,BB,varargout] = InertiaBasedLocalFrame(TR,RBP)
 % Compute local reference frame of a solid object (represented by a 
 % triangular surface mesh) using its inertial parameters. 
 %
-% INPUT:
+% INPUT
 %   - TR    : surface mesh represented as an object of 'TriRep' class, 
 %             'triangulation' class, or a cell such that TR={Tri,V}, where 
 %             Tri is an M-by-3 array of faces and V is an N-by-3 array of 
@@ -11,7 +11,7 @@ function [R,C,T,RBP,BB,varargout]=InertiaBasedLocalFrame(TR,RBP)
 %             'RigidBodyParams' function and contains rigid body parameters 
 %             of TR.
 %
-% OUTPUT:
+% OUTPUT
 %   - R     : 3-by-3 matrix specifying orientation of the local frame  
 %             with respect to the global frame so that R(:,i) corresponds
 %             to the direction of the i-th primary axis.
@@ -30,33 +30,33 @@ function [R,C,T,RBP,BB,varargout]=InertiaBasedLocalFrame(TR,RBP)
 
 % Rigid-body parameters
 if nargin<2 || isempty(RBP)
-    RBP=RigidBodyParams(TR);
+    RBP = RigidBodyParams(TR);
 end
 
 % Find the principal axes of inertia (PAI)
-R=fliplr(RBP.PAI);
-C=RBP.centroid;
+R = fliplr(RBP.PAI);
+C = RBP.centroid;
 
 % Centroid of the bounding box
-[BB,abc]=PAI_BB(TR,RBP);
-Cbb=mean(BB.vertices,1);
+[BB,abc] = PAI_BB(TR,RBP);
+Cbb = mean(BB.vertices,1);
 if nargout>5
-    varargout{1}=struct('centroid',Cbb,'abc',abc);
+    varargout{1} = struct('centroid',Cbb,'abc',abc);
 end
 
 % Standardize directions of the first two principal axes 
-[Tri,X]=GetMeshData(TR);
-Xc=(X(Tri(:,1),:)+X(Tri(:,2),:)+X(Tri(:,3),:))/3;
-Xc=bsxfun(@minus,Xc,Cbb);
-W=TriangleAreas(TR);
-for i=1:2    
-    D=Xc*R(:,i);
-    if sum(W(D<0))>sum(W(D>0)), R(:,i)=-R(:,i); end
+[Tri,X] = GetMeshData(TR);
+Xc = (X(Tri(:,1),:)+X(Tri(:,2),:)+X(Tri(:,3),:))/3;
+Xc = bsxfun(@minus,Xc,Cbb);
+W = TriangleAreas(TR);
+for i = 1:2    
+    D = Xc*R(:,i);
+    if sum(W(D<0))>sum(W(D>0)), R(:,i) = -R(:,i); end
 end
-R(:,3)=cross(R(:,1),R(:,2));
+R(:,3) = cross(R(:,1),R(:,2));
 
 % Transformation into local reference frame
-T1=eye(4); T1(1:3,4)=-C(:);
-T2=eye(4); T2(1:3,1:3)=R';
-T=T2*T1;
+T1 = eye(4); T1(1:3,4) = -C(:);
+T2 = eye(4); T2(1:3,1:3) = R';
+T = T2*T1;
 

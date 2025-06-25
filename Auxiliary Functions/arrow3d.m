@@ -39,11 +39,14 @@ if size(x,1)==2
 end
 
 x(3)=x(2);
-x(2)=x(1)+head_frac*(x(3)-x(1));
+x(2)=x(1) + head_frac*(x(3)-x(1));
+
 y(3)=y(2);
-y(2)=y(1)+head_frac*(y(3)-y(1));
+y(2)=y(1) + head_frac*(y(3)-y(1));
+
 z(3)=z(2);
-z(2)=z(1)+head_frac*(z(3)-z(1));
+z(2)=z(1) + head_frac*(z(3)-z(1));
+
 r=[x(1:2)',y(1:2)',z(1:2)'];
 
 N=50;
@@ -64,8 +67,8 @@ P1=n1+Pc;
 
 X1=[];Y1=[];Z1=[];
 j=1;
-for theta=([0:N])*2*pi./(N);
-    R1=Pc+radii*cos(theta).*(P1-Pc) + radii*sin(theta).*cross(dr,(P1-Pc)) -origin_shift;
+for theta = (0:N)*2*pi./N
+    R1=Pc + radii*cos(theta).*(P1-Pc) + radii*sin(theta).*cross(dr,(P1-Pc)) - origin_shift;
     X1(2:3,j)=R1(:,1);
     Y1(2:3,j)=R1(:,2);
     Z1(2:3,j)=R1(:,3);

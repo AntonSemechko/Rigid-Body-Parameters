@@ -14,7 +14,7 @@ function can be used for visualizing local frames of reference constructed from 
 ## Quick Demo
 
 	load('sample_mesh') 	
-	RBP=RigidBodyParams(TR);
+	RBP = RigidBodyParams(TR);
 	disp(RBP)
 	VisualizeLocalFrame(TR)
 
@@ -27,22 +27,22 @@ to computing the rigid-body parameters. Here is an example:
 
 
 	load('sample_mesh')
-	[F,V]=GetMeshData(TR);
+	[F,V] = GetMeshData(TR);
 	
 	% Randomly mix-up orientations of the faces to simulate the problem above
-	Nf=size(F,1);
-	idx=randn(Nf,1)>0;	
-	F2=F;
-	F2(idx,:)=fliplr(F(idx,:));
-	TR2=triangulation(F2,V);
+	Nf = size(F,1);
+	idx = randn(Nf,1)>0;	
+	F2 = F;
+	F2(idx,:) = fliplr(F(idx,:));
+	TR2 = triangulation(F2,V);
 	fprintf('\nNumber of inverted faces: %d\n',nnz(idx))
 		
 	% Enforce proper face orientation
-	[TR2_fix,cnt]=ConsistentNormalOrientation(TR2);
+	[TR2_fix,cnt] = ConsistentNormalOrientation(TR2);
 	fprintf('Number of faces corrected: %d\n\n',cnt)
 
 	% Verify that the output is identical to RBP for the original mesh
-	RBP_fix=RigidBodyParams(TR2_fix);
+	RBP_fix = RigidBodyParams(TR2_fix);
 	
 	fprintf('Corrected mesh:\n')
 	disp(RBP_fix)
@@ -51,7 +51,7 @@ to computing the rigid-body parameters. Here is an example:
 	disp(RigidBodyParams(TR))
 
 	% Result you would have gotten without ensuring proper face orientation:
-	RBP2=RigidBodyParams(TR2);
+	RBP2 = RigidBodyParams(TR2);
 	fprintf('Uncorrected mesh:\n')
 	disp(RBP2)
  

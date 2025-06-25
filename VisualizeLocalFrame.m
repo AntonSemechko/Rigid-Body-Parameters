@@ -76,7 +76,7 @@ switch prm
         set(hL2,'style','infinite')
         lighting phong
         
-        axis equal off %vis3d
+        axis equal off vis3d
         
         h_prm = [h1 h2 hL1 hL2];
 
